@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Believe His Prophets - Daily Reading Guide</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --highlight-color: #f1c40f;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            border-bottom: 5px solid var(--highlight-color);
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .date-display {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            text-align: center;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+        
+        .reading-cards {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        @media (min-width: 768px) {
+            .reading-cards {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background-color: var(--secondary-color);
+        }
+        
+        .card.bible::before {
+            background-color: var(--secondary-color);
+        }
+        
+        .card.sop::before {
+            background-color: var(--accent-color);
+        }
+        
+        .card-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+        }
+        
+        .card-title i {
+            margin-right: 10px;
+            font-size: 1.8rem;
+        }
+        
+        .reading-content {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            font-weight: bold;
+            color: var(--dark-color);
+        }
+        
+        .book-info {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        .progress-container {
+            margin-top: 30px;
+        }
+        
+        .progress-title {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background-color: var(--secondary-color);
+            width: 0;
+            transition: width 0.5s ease;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 50px;
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .footer-link {
+            color: var(--highlight-color);
+            text-decoration: none;
+        }
+        
+        .footer-link:hover {
+            text-decoration: underline;
+        }
+        
+        /* Animation classes */
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(52, 152, 219, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(52, 152, 219, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(52, 152, 219, 0);
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Revived Jews Sabbath School Class</h1>
+            <p class="subtitle">2025 Daily Bible Reading and Weekly Spirit of Prophecy Reading Guide</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="date-display" id="current-date">Today's Date</div>
+        
+        <div class="reading-cards">
+            <div class="card bible pulse">
+                <h2 class="card-title"><i class="fas fa-bible"></i> Today's Bible Reading</h2>
+                <div class="reading-content" id="bible-reading">Loading...</div>
+                <div class="book-info" id="bible-info"></div>
+            </div>
+            
+            <div class="card sop">
+                <h2 class="card-title"><i class="fas fa-book-open"></i> This Week's Spirit of Prophecy</h2>
+                <div class="reading-content" id="sop-reading">Loading...</div>
+                <div class="book-info" id="sop-info"></div>
+            </div>
+        </div>
+        
+        <div class="progress-container">
+            <h3 class="progress-title">Yearly Reading Progress</h3>
+            <div class="progress-bar">
+                <div class="progress" id="year-progress"></div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>© 2025 Revived Jews Sabbath School Class</a></p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set up date display
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('current-date').textContent = now.toLocaleDateString('en-US', options);
+            
+            // Calculate day of year for progress
+            const start = new Date(now.getFullYear(), 0, 0);
+            const diff = now - start;
+            const oneDay = 1000 * 60 * 60 * 24;
+            const dayOfYear = Math.floor(diff / oneDay);
+            const progressPercent = Math.round((dayOfYear / 365) * 100);
+            document.getElementById('year-progress').style.width = progressPercent + '%';
+            
+            // Get month and day
+            const month = now.getMonth() + 1; // JavaScript months are 0-indexed
+            const day = now.getDate();
+            
+            // Bible reading data
+            const bibleReadings = {
+                // January
+                1: { reading: "2 Cor. 6", info: "2 Corinthians 6" },
+                2: { reading: "2 Cor. 7", info: "2 Corinthians 7" },
+                3: { reading: "2 Cor. 8", info: "2 Corinthians 8" },
+                4: { reading: "2 Cor. 9", info: "2 Corinthians 9" },
+                5: { reading: "2 Cor. 10", info: "2 Corinthians 10" },
+                6: { reading: "2 Cor. 11", info: "2 Corinthians 11" },
+                7: { reading: "2 Cor. 12", info: "2 Corinthians 12" },
+                8: { reading: "2 Cor. 13", info: "2 Corinthians 13" },
+                9: { reading: "Galatians 1", info: "Galatians 1" },
+                10: { reading: "Galatians 2", info: "Galatians 2" },
+                11: { reading: "Galatians 3", info: "Galatians 3" },
+                12: { reading: "Galatians 4", info: "Galatians 4" },
+                13: { reading: "Galatians 5", info: "Galatians 5" },
+                14: { reading: "Galatians 6", info: "Galatians 6" },
+                15: { reading: "Ephesians 1", info: "Ephesians 1" },
+                16: { reading: "Ephesians 2", info: "Ephesians 2" },
+                17: { reading: "Ephesians 3", info: "Ephesians 3" },
+                18: { reading: "Ephesians 4", info: "Ephesians 4" },
+                19: { reading: "Ephesians 5", info: "Ephesians 5" },
+                20: { reading: "Ephesians 6", info: "Ephesians 6" },
+                21: { reading: "Philippians 1", info: "Philippians 1" },
+                22: { reading: "Philippians 2", info: "Philippians 2" },
+                23: { reading: "Philippians 3", info: "Philippians 3" },
+                24: { reading: "Philippians 4", info: "Philippians 4" },
+                25: { reading: "Colossians 1", info: "Colossians 1" },
+                26: { reading: "Colossians 2", info: "Colossians 2" },
+                27: { reading: "Colossians 3", info: "Colossians 3" },
+                28: { reading: "Colossians 4", info: "Colossians 4" },
+                29: { reading: "1 Thess. 1", info: "1 Thessalonians 1" },
+                30: { reading: "1 Thess. 2", info: "1 Thessalonians 2" },
+                31: { reading: "1 Thess. 3", info: "1 Thessalonians 3" },
+                // February
+                32: { reading: "1 Thess. 4", info: "1 Thessalonians 4" },
+                33: { reading: "1 Thess. 5", info: "1 Thessalonians 5" },
+                34: { reading: "2 Thess. 1", info: "2 Thessalonians 1" },
+                35: { reading: "2 Thess. 2", info: "2 Thessalonians 2" },
+                36: { reading: "2 Thess. 3", info: "2 Thessalonians 3" },
+                37: { reading: "1 Timothy 1", info: "1 Timothy 1" },
+                38: { reading: "1 Timothy 2", info: "1 Timothy 2" },
+                39: { reading: "1 Timothy 3", info: "1 Timothy 3" },
+                40: { reading: "1 Timothy 4", info: "1 Timothy 4" },
+                41: { reading: "1 Timothy 5", info: "1 Timothy 5" },
+                42: { reading: "1 Timothy 6", info: "1 Timothy 6" },
+                43: { reading: "2 Timothy 1", info: "2 Timothy 1" },
+                44: { reading: "2 Timothy 2", info: "2 Timothy 2" },
+                45: { reading: "2 Timothy 3", info: "2 Timothy 3" },
+                46: { reading: "2 Timothy 4", info: "2 Timothy 4" },
+                47: { reading: "Titus 1", info: "Titus 1" },
+                48: { reading: "Titus 2", info: "Titus 2" },
+                49: { reading: "Titus 3", info: "Titus 3" },
+                50: { reading: "Philemon 1", info: "Philemon 1" },
+                51: { reading: "Hebrews 1", info: "Hebrews 1" },
+                52: { reading: "Hebrews 2", info: "Hebrews 2" },
+                53: { reading: "Hebrews 3", info: "Hebrews 3" },
+                54: { reading: "Hebrews 4", info: "Hebrews 4" },
+                55: { reading: "Hebrews 5", info: "Hebrews 5" },
+                56: { reading: "Hebrews 6", info: "Hebrews 6" },
+                57: { reading: "Hebrews 7", info: "Hebrews 7" },
+                58: { reading: "Hebrews 8", info: "Hebrews 8" },
+                59: { reading: "Hebrews 9", info: "Hebrews 9" },
+                // March
+                60: { reading: "Hebrews 10", info: "Hebrews 10" },
+                61: { reading: "Hebrews 11", info: "Hebrews 11" },
+                62: { reading: "Hebrews 12", info: "Hebrews 12" },
+                63: { reading: "Hebrews 13", info: "Hebrews 13" },
+                64: { reading: "James 1", info: "James 1" },
+                65: { reading: "James 2", info: "James 2" },
+                66: { reading: "James 3", info: "James 3" },
+                67: { reading: "James 4", info: "James 4" },
+                68: { reading: "James 5", info: "James 5" },
+                69: { reading: "1 Peter 1", info: "1 Peter 1" },
+                70: { reading: "1 Peter 2", info: "1 Peter 2" },
+                71: { reading: "1 Peter 3", info: "1 Peter 3" },
+                72: { reading: "1 Peter 4", info: "1 Peter 4" },
+                73: { reading: "1 Peter 5", info: "1 Peter 5" },
+                74: { reading: "2 Peter 1", info: "2 Peter 1" },
+                75: { reading: "2 Peter 2", info: "2 Peter 2" },
+                76: { reading: "2 Peter 3", info: "2 Peter 3" },
+                77: { reading: "1 John 1", info: "1 John 1" },
+                78: { reading: "1 John 2", info: "1 John 2" },
+                79: { reading: "1 John 3", info: "1 John 3" },
+                80: { reading: "1 John 4", info: "1 John 4" },
+                81: { reading: "1 John 5", info: "1 John 5" },
+                82: { reading: "2 John 1", info: "2 John 1" },
+                83: { reading: "3 John 1", info: "3 John 1" },
+                84: { reading: "Jude 1", info: "Jude 1" },
+                85: { reading: "Rev. 1", info: "Revelation 1" },
+                86: { reading: "Rev. 2", info: "Revelation 2" },
+                87: { reading: "Rev. 3", info: "Revelation 3" },
+                88: { reading: "Rev. 4", info: "Revelation 4" },
+                89: { reading: "Rev. 5", info: "Revelation 5" },
+                90: { reading: "Rev. 6", info: "Revelation 6" },
+                // April
+                91: { reading: "Rev. 7", info: "Revelation 7" },
+                92: { reading: "Rev. 8", info: "Revelation 8" },
+                93: { reading: "Rev. 9", info: "Revelation 9" },
+                94: { reading: "Rev. 10", info: "Revelation 10" },
+                95: { reading: "Rev. 11", info: "Revelation 11" },
+                96: { reading: "Rev. 12", info: "Revelation 12" },
+                97: { reading: "Rev. 13", info: "Revelation 13" },
+                98: { reading: "Rev. 14", info: "Revelation 14" },
+                99: { reading: "Rev. 15", info: "Revelation 15" },
+                100: { reading: "Rev. 16", info: "Revelation 16" },
+                101: { reading: "Rev. 17", info: "Revelation 17" },
+                102: { reading: "Rev. 18", info: "Revelation 18" },
+                103: { reading: "Rev. 19", info: "Revelation 19" },
+                104: { reading: "Rev. 20", info: "Revelation 20" },
+                105: { reading: "Rev. 21", info: "Revelation 21" },
+                106: { reading: "Rev. 22", info: "Revelation 22" },
+                107: { reading: "Genesis 1", info: "Genesis 1" },
+                108: { reading: "Genesis 2", info: "Genesis 2" },
+                109: { reading: "Genesis 3", info: "Genesis 3" },
+                110: { reading: "Genesis 4", info: "Genesis 4" },
+                111: { reading: "Genesis 5", info: "Genesis 5" },
+                112: { reading: "Genesis 6", info: "Genesis 6" },
+                113: { reading: "Genesis 7", info: "Genesis 7" },
+                114: { reading: "Genesis 8", info: "Genesis 8" },
+                115: { reading: "Genesis 9", info: "Genesis 9" },
+                116: { reading: "Genesis 10", info: "Genesis 10" },
+                117: { reading: "Genesis 11", info: "Genesis 11" },
+                118: { reading: "Genesis 12", info: "Genesis 12" },
+                119: { reading: "Genesis 13", info: "Genesis 13" },
+                120: { reading: "Genesis 14", info: "Genesis 14" },
+                // May
+                121: { reading: "Genesis 15", info: "Genesis 15" },
+                122: { reading: "Genesis 16", info: "Genesis 16" },
+                123: { reading: "Genesis 17", info: "Genesis 17" },
+                124: { reading: "Genesis 18", info: "Genesis 18" },
+                125: { reading: "Genesis 19", info: "Genesis 19" },
+                126: { reading: "Genesis 20", info: "Genesis 20" },
+                127: { reading: "Genesis 21", info: "Genesis 21" },
+                128: { reading: "Genesis 22", info: "Genesis 22" },
+                129: { reading: "Genesis 23", info: "Genesis 23" },
+                130: { reading: "Genesis 24", info: "Genesis 24" },
+                131: { reading: "Genesis 25", info: "Genesis 25" },
+                132: { reading: "Genesis 26", info: "Genesis 26" },
+                133: { reading: "Genesis 27", info: "Genesis 27" },
+                134: { reading: "Genesis 28", info: "Genesis 28" },
+                135: { reading: "Genesis 29", info: "Genesis 29" },
+                136: { reading: "Genesis 30", info: "Genesis 30" },
+                137: { reading: "Genesis 31", info: "Genesis 31" },
+                138: { reading: "Genesis 32", info: "Genesis 32" },
+                139: { reading: "Genesis 33", info: "Genesis 33" },
+                140: { reading: "Genesis 34", info: "Genesis 34" },
+                141: { reading: "Genesis 35", info: "Genesis 35" },
+                142: { reading: "Genesis 36", info: "Genesis 36" },
+                143: { reading: "Genesis 37", info: "Genesis 37" },
+                144: { reading: "Genesis 38", info: "Genesis 38" },
+                145: { reading: "Genesis 39", info: "Genesis 39" },
+                146: { reading: "Genesis 40", info: "Genesis 40" },
+                147: { reading: "Genesis 41", info: "Genesis 41" },
+                148: { reading: "Genesis 42", info: "Genesis 42" },
+                149: { reading: "Genesis 43", info: "Genesis 43" },
+                150: { reading: "Genesis 44", info: "Genesis 44" },
+                151: { reading: "Genesis 45", info: "Genesis 45" },
+                // June
+                152: { reading: "Genesis 46", info: "Genesis 46" },
+                153: { reading: "Genesis 47", info: "Genesis 47" },
+                154: { reading: "Genesis 48", info: "Genesis 48" },
+                155: { reading: "Genesis 49", info: "Genesis 49" },
+                156: { reading: "Genesis 50", info: "Genesis 50" },
+                157: { reading: "Exodus 1", info: "Exodus 1" },
+                158: { reading: "Exodus 2", info: "Exodus 2" },
+                159: { reading: "Exodus 3", info: "Exodus 3" },
+                160: { reading: "Exodus 4", info: "Exodus 4" },
+                161: { reading: "Exodus 5", info: "Exodus 5" },
+                162: { reading: "Exodus 6", info: "Exodus 6" },
+                163: { reading: "Exodus 7", info: "Exodus 7" },
+                164: { reading: "Exodus 8", info: "Exodus 8" },
+                165: { reading: "Exodus 9", info: "Exodus 9" },
+                166: { reading: "Exodus 10", info: "Exodus 10" },
+                167: { reading: "Exodus 11", info: "Exodus 11" },
+                168: { reading: "Exodus 12", info: "Exodus 12" },
+                169: { reading: "Exodus 13", info: "Exodus 13" },
+                170: { reading: "Exodus 14", info: "Exodus 14" },
+                171: { reading: "Exodus 15", info: "Exodus 15" },
+                172: { reading: "Exodus 16", info: "Exodus 16" },
+                173: { reading: "Exodus 17", info: "Exodus 17" },
+                174: { reading: "Exodus 18", info: "Exodus 18" },
+                175: { reading: "Exodus 19", info: "Exodus 19" },
+                176: { reading: "Exodus 20", info: "Exodus 20" },
+                177: { reading: "Exodus 21", info: "Exodus 21" },
+                178: { reading: "Exodus 22", info: "Exodus 22" },
+                179: { reading: "Exodus 23", info: "Exodus 23" },
+                180: { reading: "Exodus 24", info: "Exodus 24" },
+                181: { reading: "Exodus 25", info: "Exodus 25" },
+                // July
+                182: { reading: "Exodus 26", info: "Exodus 26" },
+                183: { reading: "Exodus 27", info: "Exodus 27" },
+                184: { reading: "Exodus 28", info: "Exodus 28" },
+                185: { reading: "Exodus 29", info: "Exodus 29" },
+                186: { reading: "Exodus 30", info: "Exodus 30" },
+                187: { reading: "Exodus 31", info: "Exodus 31" },
+                188: { reading: "Exodus 32", info: "Exodus 32" },
+                189: { reading: "Exodus 33", info: "Exodus 33" },
+                190: { reading: "Exodus 34", info: "Exodus 34" },
+                191: { reading: "Exodus 35", info: "Exodus 35" },
+                192: { reading: "Exodus 36", info: "Exodus 36" },
+                193: { reading: "Exodus 37", info: "Exodus 37" },
+                194: { reading: "Exodus 38", info: "Exodus 38" },
+                195: { reading: "Exodus 39", info: "Exodus 39" },
+                196: { reading: "Exodus 40", info: "Exodus 40" },
+                197: { reading: "Leviticus 1", info: "Leviticus 1" },
+                198: { reading: "Leviticus 2", info: "Leviticus 2" },
+                199: { reading: "Leviticus 3", info: "Leviticus 3" },
+                200: { reading: "Leviticus 4", info: "Leviticus 4" },
+                201: { reading: "Leviticus 5", info: "Leviticus 5" },
+                202: { reading: "Leviticus 6", info: "Leviticus 6" },
+                203: { reading: "Leviticus 7", info: "Leviticus 7" },
+                204: { reading: "Leviticus 8", info: "Leviticus 8" },
+                205: { reading: "Leviticus 9", info: "Leviticus 9" },
+                206: { reading: "Leviticus 10", info: "Leviticus 10" },
+                207: { reading: "Leviticus 11", info: "Leviticus 11" },
+                208: { reading: "Leviticus 12", info: "Leviticus 12" },
+                209: { reading: "Leviticus 13", info: "Leviticus 13" },
+                210: { reading: "Leviticus 14", info: "Leviticus 14" },
+                211: { reading: "Leviticus 15", info: "Leviticus 15" },
+                212: { reading: "Leviticus 16", info: "Leviticus 16" },
+                // August
+                213: { reading: "Leviticus 17", info: "Leviticus 17" },
+                214: { reading: "Leviticus 18", info: "Leviticus 18" },
+                215: { reading: "Leviticus 19", info: "Leviticus 19" },
+                216: { reading: "Leviticus 20", info: "Leviticus 20" },
+                217: { reading: "Leviticus 21", info: "Leviticus 21" },
+                218: { reading: "Leviticus 22", info: "Leviticus 22" },
+                219: { reading: "Leviticus 23", info: "Leviticus 23" },
+                220: { reading: "Leviticus 24", info: "Leviticus 24" },
+                221: { reading: "Leviticus 25", info: "Leviticus 25" },
+                222: { reading: "Leviticus 26", info: "Leviticus 26" },
+                223: { reading: "Leviticus 27", info: "Leviticus 27" },
+                224: { reading: "Numbers 1", info: "Numbers 1" },
+                225: { reading: "Numbers 2", info: "Numbers 2" },
+                226: { reading: "Numbers 3", info: "Numbers 3" },
+                227: { reading: "Numbers 4", info: "Numbers 4" },
+                228: { reading: "Numbers 5", info: "Numbers 5" },
+                229: { reading: "Numbers 6", info: "Numbers 6" },
+                230: { reading: "Numbers 7", info: "Numbers 7" },
+                231: { reading: "Numbers 8", info: "Numbers 8" },
+                232: { reading: "Numbers 9", info: "Numbers 9" },
+                233: { reading: "Numbers 10", info: "Numbers 10" },
+                234: { reading: "Numbers 11", info: "Numbers 11" },
+                235: { reading: "Numbers 12", info: "Numbers 12" },
+                236: { reading: "Numbers 13", info: "Numbers 13" },
+                237: { reading: "Numbers 14", info: "Numbers 14" },
+                238: { reading: "Numbers 15", info: "Numbers 15" },
+                239: { reading: "Numbers 16", info: "Numbers 16" },
+                240: { reading: "Numbers 17", info: "Numbers 17" },
+                241: { reading: "Numbers 18", info: "Numbers 18" },
+                242: { reading: "Numbers 19", info: "Numbers 19" },
+                243: { reading: "Numbers 20", info: "Numbers 20" },
+                // September
+                244: { reading: "Numbers 21", info: "Numbers 21" },
+                245: { reading: "Numbers 22", info: "Numbers 22" },
+                246: { reading: "Numbers 23", info: "Numbers 23" },
+                247: { reading: "Numbers 24", info: "Numbers 24" },
+                248: { reading: "Numbers 25", info: "Numbers 25" },
+                249: { reading: "Numbers 26", info: "Numbers 26" },
+                250: { reading: "Numbers 27", info: "Numbers 27" },
+                251: { reading: "Numbers 28", info: "Numbers 28" },
+                252: { reading: "Numbers 29", info: "Numbers 29" },
+                253: { reading: "Numbers 30", info: "Numbers 30" },
+                254: { reading: "Numbers 31", info: "Numbers 31" },
+                255: { reading: "Numbers 32", info: "Numbers 32" },
+                256: { reading: "Numbers 33", info: "Numbers 33" },
+                257: { reading: "Numbers 34", info: "Numbers 34" },
+                258: { reading: "Numbers 35", info: "Numbers 35" },
+                259: { reading: "Numbers 36", info: "Numbers 36" },
+                260: { reading: "Deut. 1", info: "Deuteronomy 1" },
+                261: { reading: "Deut. 2", info: "Deuteronomy 2" },
+                262: { reading: "Deut. 3", info: "Deuteronomy 3" },
+                263: { reading: "Deut. 4", info: "Deuteronomy 4" },
+                264: { reading: "Deut. 5", info: "Deuteronomy 5" },
+                265: { reading: "Deut. 6", info: "Deuteronomy 6" },
+                266: { reading: "Deut. 7", info: "Deuteronomy 7" },
+                267: { reading: "Deut. 8", info: "Deuteronomy 8" },
+                268: { reading: "Deut. 9", info: "Deuteronomy 9" },
+                269: { reading: "Deut. 10", info: "Deuteronomy 10" },
+                270: { reading: "Deut. 11", info: "Deuteronomy 11" },
+                271: { reading: "Deut. 12", info: "Deuteronomy 12" },
+                272: { reading: "Deut. 13", info: "Deuteronomy 13" },
+                273: { reading: "Deut. 14", info: "Deuteronomy 14" },
+                // October
+                274: { reading: "Deut. 15", info: "Deuteronomy 15" },
+                275: { reading: "Deut. 16", info: "Deuteronomy 16" },
+                276: { reading: "Deut. 17", info: "Deuteronomy 17" },
+                277: { reading: "Deut. 18", info: "Deuteronomy 18" },
+                278: { reading: "Deut. 19", info: "Deuteronomy 19" },
+                279: { reading: "Deut. 20", info: "Deuteronomy 20" },
+                280: { reading: "Deut. 21", info: "Deuteronomy 21" },
+                281: { reading: "Deut. 22", info: "Deuteronomy 22" },
+                282: { reading: "Deut. 23", info: "Deuteronomy 23" },
+                283: { reading: "Deut. 24", info: "Deuteronomy 24" },
+                284: { reading: "Deut. 25", info: "Deuteronomy 25" },
+                285: { reading: "Deut. 26", info: "Deuteronomy 26" },
+                286: { reading: "Deut. 27", info: "Deuteronomy 27" },
+                287: { reading: "Deut. 28", info: "Deuteronomy 28" },
+                288: { reading: "Deut. 29", info: "Deuteronomy 29" },
+                289: { reading: "Deut. 30", info: "Deuteronomy 30" },
+                290: { reading: "Deut. 31", info: "Deuteronomy 31" },
+                291: { reading: "Deut. 32", info: "Deuteronomy 32" },
+                292: { reading: "Deut. 33", info: "Deuteronomy 33" },
+                293: { reading: "Deut. 34", info: "Deuteronomy 34" },
+                294: { reading: "Joshua 1", info: "Joshua 1" },
+                295: { reading: "Joshua 2", info: "Joshua 2" },
+                296: { reading: "Joshua 3", info: "Joshua 3" },
+                297: { reading: "Joshua 4", info: "Joshua 4" },
+                298: { reading: "Joshua 5", info: "Joshua 5" },
+                299: { reading: "Joshua 6", info: "Joshua 6" },
+                300: { reading: "Joshua 7", info: "Joshua 7" },
+                301: { reading: "Joshua 8", info: "Joshua 8" },
+                302: { reading: "Joshua 9", info: "Joshua 9" },
+                303: { reading: "Joshua 10", info: "Joshua 10" },
+                304: { reading: "Joshua 11", info: "Joshua 11" },
+                // November
+                305: { reading: "Joshua 12", info: "Joshua 12" },
+                306: { reading: "Joshua 13", info: "Joshua 13" },
+                307: { reading: "Joshua 14", info: "Joshua 14" },
+                308: { reading: "Joshua 15", info: "Joshua 15" },
+                309: { reading: "Joshua 16", info: "Joshua 16" },
+                310: { reading: "Joshua 17", info: "Joshua 17" },
+                311: { reading: "Joshua 18", info: "Joshua 18" },
+                312: { reading: "Joshua 19", info: "Joshua 19" },
+                313: { reading: "Joshua 20", info: "Joshua 20" },
+                314: { reading: "Joshua 21", info: "Joshua 21" },
+                315: { reading: "Joshua 22", info: "Joshua 22" },
+                316: { reading: "Joshua 23", info: "Joshua 23" },
+                317: { reading: "Joshua 24", info: "Joshua 24" },
+                318: { reading: "Judges 1", info: "Judges 1" },
+                319: { reading: "Judges 2", info: "Judges 2" },
+                320: { reading: "Judges 3", info: "Judges 3" },
+                321: { reading: "Judges 4", info: "Judges 4" },
+                322: { reading: "Judges 5", info: "Judges 5" },
+                323: { reading: "Judges 6", info: "Judges 6" },
+                324: { reading: "Judges 7", info: "Judges 7" },
+                325: { reading: "Judges 8", info: "Judges 8" },
+                326: { reading: "Judges 9", info: "Judges 9" },
+                327: { reading: "Judges 10", info: "Judges 10" },
+                328: { reading: "Judges 11", info: "Judges 11" },
+                329: { reading: "Judges 12", info: "Judges 12" },
+                330: { reading: "Judges 13", info: "Judges 13" },
+                331: { reading: "Judges 14", info: "Judges 14" },
+                332: { reading: "Judges 15", info: "Judges 15" },
+                333: { reading: "Judges 16", info: "Judges 16" },
+                334: { reading: "Judges 17", info: "Judges 17" },
+                // December
+                335: { reading: "Judges 18", info: "Judges 18" },
+                336: { reading: "Judges 19", info: "Judges 19" },
+                337: { reading: "Judges 20", info: "Judges 20" },
+                338: { reading: "Judges 21", info: "Judges 21" },
+                339: { reading: "Ruth 1", info: "Ruth 1" },
+                340: { reading: "Ruth 2", info: "Ruth 2" },
+                341: { reading: "Ruth 3", info: "Ruth 3" },
+                342: { reading: "Ruth 4", info: "Ruth 4" },
+                343: { reading: "1 Samuel 1", info: "1 Samuel 1" },
+                344: { reading: "1 Samuel 2", info: "1 Samuel 2" },
+                345: { reading: "1 Samuel 3", info: "1 Samuel 3" },
+                346: { reading: "1 Samuel 4", info: "1 Samuel 4" },
+                347: { reading: "1 Samuel 5", info: "1 Samuel 5" },
+                348: { reading: "1 Samuel 6", info: "1 Samuel 6" },
+                349: { reading: "1 Samuel 7", info: "1 Samuel 7" },
+                350: { reading: "1 Samuel 8", info: "1 Samuel 8" },
+                351: { reading: "1 Samuel 9", info: "1 Samuel 9" },
+                352: { reading: "1 Samuel 10", info: "1 Samuel 10" },
+                353: { reading: "1 Samuel 11", info: "1 Samuel 11" },
+                354: { reading: "1 Samuel 12", info: "1 Samuel 12" },
+                355: { reading: "1 Samuel 13", info: "1 Samuel 13" },
+                356: { reading: "1 Samuel 14", info: "1 Samuel 14" },
+                357: { reading: "1 Samuel 15", info: "1 Samuel 15" },
+                358: { reading: "1 Samuel 16", info: "1 Samuel 16" },
+                359: { reading: "1 Samuel 17", info: "1 Samuel 17" },
+                360: { reading: "1 Samuel 18", info: "1 Samuel 18" },
+                361: { reading: "1 Samuel 19", info: "1 Samuel 19" },
+                362: { reading: "1 Samuel 20", info: "1 Samuel 20" },
+                363: { reading: "1 Samuel 21", info: "1 Samuel 21" },
+                364: { reading: "1 Samuel 22", info: "1 Samuel 22" },
+                365: { reading: "1 Samuel 23", info: "1 Samuel 23" }
+            };
+            
+            // Spirit of Prophecy reading data (weekly)
+            const sopReadings = {
+                // January
+                1: { reading: "The Desire of Ages Ch 85–86", info: "The Desire of Ages by Ellen G. White" },
+                8: { reading: "The Desire of Ages Ch 87", info: "The Desire of Ages by Ellen G. White" },
+                15: { reading: "Steps to Christ Ch 1", info: "Steps to Christ by Ellen G. White" },
+                22: { reading: "Steps to Christ Ch 2", info: "Steps to Christ by Ellen G. White" },
+                29: { reading: "Steps to Christ Ch 3", info: "Steps to Christ by Ellen G. White" },
+                // February
+                36: { reading: "Steps to Christ Ch 4", info: "Steps to Christ by Ellen G. White" },
+                43: { reading: "Steps to Christ Ch 5", info: "Steps to Christ by Ellen G. White" },
+                50: { reading: "Steps to Christ Ch 6", info: "Steps to Christ by Ellen G. White" },
+                // March
+                57: { reading: "Steps to Christ Ch 7", info: "Steps to Christ by Ellen G. White" },
+                64: { reading: "Steps to Christ Ch 8", info: "Steps to Christ by Ellen G. White" },
+                71: { reading: "Steps to Christ Ch 9", info: "Steps to Christ by Ellen G. White" },
+                78: { reading: "Steps to Christ Ch 10", info: "Steps to Christ by Ellen G. White" },
+                85: { reading: "Steps to Christ Ch 11", info: "Steps to Christ by Ellen G. White" },
+                // April
+                92: { reading: "Steps to Christ Ch 12", info: "Steps to Christ by Ellen G. White" },
+                99: { reading: "Steps to Christ Ch 13", info: "Steps to Christ by Ellen G. White" },
+                106: { reading: "Patriarchs and Prophets Ch 1", info: "Patriarchs and Prophets by Ellen G. White" },
+                113: { reading: "Patriarchs and Prophets Ch 2", info: "Patriarchs and Prophets by Ellen G. White" },
+                // May
+                120: { reading: "Patriarchs and Prophets Ch 3–4", info: "Patriarchs and Prophets by Ellen G. White" },
+                127: { reading: "Patriarchs and Prophets Ch 5", info: "Patriarchs and Prophets by Ellen G. White" },
+                134: { reading: "Patriarchs and Prophets Ch 6", info: "Patriarchs and Prophets by Ellen G. White" },
+                141: { reading: "Patriarchs and Prophets Ch 7", info: "Patriarchs and Prophets by Ellen G. White" },
+                // June
+                148: { reading: "Patriarchs and Prophets Ch 8–9", info: "Patriarchs and Prophets by Ellen G. White" },
+                155: { reading: "Patriarchs and Prophets Ch 10–11", info: "Patriarchs and Prophets by Ellen G. White" },
+                162: { reading: "Patriarchs and Prophets Ch 12", info: "Patriarchs and Prophets by Ellen G. White" },
+                169: { reading: "Patriarchs and Prophets Ch 13", info: "Patriarchs and Prophets by Ellen G. White" },
+                176: { reading: "Patriarchs and Prophets Ch 14", info: "Patriarchs and Prophets by Ellen G. White" },
+                // July
+                183: { reading: "Patriarchs and Prophets Ch 15–16", info: "Patriarchs and Prophets by Ellen G. White" },
+                190: { reading: "Patriarchs and Prophets Ch 17", info: "Patriarchs and Prophets by Ellen G. White" },
+                197: { reading: "Patriarchs and Prophets Ch 18–19", info: "Patriarchs and Prophets by Ellen G. White" },
+                204: { reading: "Patriarchs and Prophets Ch 20", info: "Patriarchs and Prophets by Ellen G. White" },
+                // August
+                211: { reading: "Patriarchs and Prophets Ch 21", info: "Patriarchs and Prophets by Ellen G. White" },
+                218: { reading: "Patriarchs and Prophets Ch 22", info: "Patriarchs and Prophets by Ellen G. White" },
+                225: { reading: "Patriarchs and Prophets Ch 23", info: "Patriarchs and Prophets by Ellen G. White" },
+                232: { reading: "Patriarchs and Prophets Ch 24–25", info: "Patriarchs and Prophets by Ellen G. White" },
+                239: { reading: "Patriarchs and Prophets Ch 26", info: "Patriarchs and Prophets by Ellen G. White" },
+                // September
+                246: { reading: "Patriarchs and Prophets Ch 27", info: "Patriarchs and Prophets by Ellen G. White" },
+                253: { reading: "Patriarchs and Prophets Ch 28", info: "Patriarchs and Prophets by Ellen G. White" },
+                260: { reading: "Patriarchs and Prophets Ch 29", info: "Patriarchs and Prophets by Ellen G. White" },
+                267: { reading: "Patriarchs and Prophets Ch 30", info: "Patriarchs and Prophets by Ellen G. White" },
+                // October
+                274: { reading: "Patriarchs and Prophets Ch 31–32", info: "Patriarchs and Prophets by Ellen G. White" },
+                281: { reading: "Patriarchs and Prophets Ch 33", info: "Patriarchs and Prophets by Ellen G. White" },
+                288: { reading: "Patriarchs and Prophets Ch 34–35", info: "Patriarchs and Prophets by Ellen G. White" },
+                295: { reading: "Patriarchs and Prophets Ch 36–37", info: "Patriarchs and Prophets by Ellen G. White" },
+                // November
+                302: { reading: "Patriarchs and Prophets Ch 38–39", info: "Patriarchs and Prophets by Ellen G. White" },
+                309: { reading: "Patriarchs and Prophets Ch 40", info: "Patriarchs and Prophets by Ellen G. White" },
+                316: { reading: "Patriarchs and Prophets Ch 41–42", info: "Patriarchs and Prophets by Ellen G. White" },
+                323: { reading: "Patriarchs and Prophets Ch 43–44", info: "Patriarchs and Prophets by Ellen G. White" },
+                330: { reading: "Patriarchs and Prophets Ch 45–46", info: "Patriarchs and Prophets by Ellen G. White" },
+                // December
+                337: { reading: "Patriarchs and Prophets Ch 47–48", info: "Patriarchs and Prophets by Ellen G. White" },
+                344: { reading: "Patriarchs and Prophets Ch 49–50", info: "Patriarchs and Prophets by Ellen G. White" },
+                351: { reading: "Patriarchs and Prophets Ch 51–52", info: "Patriarchs and Prophets by Ellen G. White" },
+                358: { reading: "Patriarchs and Prophets Ch 53", info: "Patriarchs and Prophets by Ellen G. White" }
+            };
+            
+            // Get current day of year
+            const currentDayOfYear = dayOfYear;
+            
+            // Display Bible reading
+            if (bibleReadings[currentDayOfYear]) {
+                document.getElementById('bible-reading').textContent = bibleReadings[currentDayOfYear].reading;
+                document.getElementById('bible-info').textContent = bibleReadings[currentDayOfYear].info;
+            } else {
+                document.getElementById('bible-reading').textContent = "No reading scheduled";
+                document.getElementById('bible-info').textContent = "";
+            }
+            
+            // Display Spirit of Prophecy reading (weekly)
+            // Find the most recent Sunday
+            const today = new Date();
+            const sunday = new Date(today);
+            sunday.setDate(today.getDate() - today.getDay());
+            
+            // Calculate day of year for Sunday
+            const startOfYearSunday = new Date(sunday.getFullYear(), 0, 0);
+            const diffSunday = sunday - startOfYearSunday;
+            const dayOfYearSunday = Math.floor(diffSunday / oneDay);
+            
+            if (sopReadings[dayOfYearSunday]) {
+                document.getElementById('sop-reading').textContent = sopReadings[dayOfYearSunday].reading;
+                document.getElementById('sop-info').textContent = sopReadings[dayOfYearSunday].info;
+            } else {
+                // Find the closest previous week with a reading
+                let found = false;
+                let checkDay = dayOfYearSunday;
+                while (checkDay > 0 && !found) {
+                    if (sopReadings[checkDay]) {
+                        document.getElementById('sop-reading').textContent = sopReadings[checkDay].reading;
+                        document.getElementById('sop-info').textContent = sopReadings[checkDay].info;
+                        found = true;
+                    }
+                    checkDay--;
+                }
+                
+                if (!found) {
+                    document.getElementById('sop-reading').textContent = "No reading scheduled";
+                    document.getElementById('sop-info').textContent = "";
+                }
+            }
+            
+            // Remove pulse animation after 5 seconds
+            setTimeout(function() {
+                document.querySelector('.card.bible').classList.remove('pulse');
+            }, 5000);
+        });
+    </script>
+</body>
+</html>
